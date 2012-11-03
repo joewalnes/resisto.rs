@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<script src="sugar-1.3.1.min.js"></script>
+<script src='resistors.js'></script>
+<script src='tinytest.js'></script>
+<script>
+
+TinyTest.run('resistors.js: roundToSignificantPlaces', {
+  'large number': function() {
+    this.assertEquals(123000000, resistors.roundToSignificantPlaces(123456789, 3));
+  },
+  'small number': function() {
+    this.assertEquals(0.00457, resistors.roundToSignificantPlaces(0.0045678, 3));
+  },
+});
+
+TinyTest.run('resistors.js: parseValue', {
+  '3.2m': function() {
+    this.assertEquals(3200000, resistors.parseValue('3.2m'));
+  },
+  '3M2': function() {
+    this.assertEquals(3200000, resistors.parseValue('3M2'));
+  },
+});
+
+TinyTest.run('resistors.js: numberToColorDigits', {
+  '470000': function() {
+    this.assertStructure([4, 7, 0, 3], resistors.numberToColorDigits(470000));
+  },
+});
+
+TinyTest.run('resistors.js: formatValue', {
+  '470000': function() {
+    this.assertEquals('470K', resistors.formatValue(470000));
+  },
+});
+
+var NO_MATCH = 'NO_MATCH';
+
+function resistorTests(name, tests) {
+  TinyTest.run('resistors.js: ' + name, Object.map(tests, function(query, expected) {
+    return function() {
+      var actual = resistors.query(query);
+      if (expected === NO_MATCH) {
+        if (actual) {
+          this.fail('Expected no result. Got: ' + JSON.stringify(actual));
+        }
+      } else {
+        if (!actual) {
+          this.fail('Got no result. Expected: ' + JSON.stringify(expected));
+        } else {
+          this.assertStructure({
+            formatted: actual.formatted,
+            colors: actual.colors.map(function(color) { return color.name }).join(' ')
+          }, expected);
+        }
+      }
+    }
+  }));
+}
+
+resistorTests('Check trigger kicks in', {
+  '330': {formatted:'330', colors:'orange orange black black'},
+  '   330  ': {formatted:'330', colors:'orange orange black black'},
+  '330 ohms': {formatted:'330', colors:'orange orange black black'},
+  '330 ohm': {formatted:'330', colors:'orange orange black black'},
+  '330 \u2126': {formatted:'330', colors:'orange orange black black'},
+  '330ohms': {formatted:'330', colors:'orange orange black black'},
+  '330ohm': {formatted:'330', colors:'orange orange black black'},
+  '330\u2126': {formatted:'330', colors:'orange orange black black'},
+});
+
+resistorTests('Various multipliers', {
+  '472000 ohms': {formatted:'472K', colors:'yellow purple red orange'},
+  '400000 ohms': {formatted:'400K', colors:'yellow black black orange'},
+  '12300 ohms': {formatted:'12.3K', colors:'brown red orange red'},
+});
+
+resistorTests('Rounding', {
+  '1.2345 ohms': {formatted:'1.23', colors:'brown red orange silver'},
+  '1.2355 ohms': {formatted:'1.24', colors:'brown red yellow silver'},
+  '12.345 ohms': {formatted:'12.3', colors:'brown red orange gold'},
+  '12.355 ohms': {formatted:'12.4', colors:'brown red yellow gold'},
+  '123.45 ohms': {formatted:'123', colors:'brown red orange black'},
+  '123.55 ohms': {formatted:'124', colors:'brown red yellow black'},
+  '1234.5 ohms': {formatted:'1.23K', colors:'brown red orange brown'},
+  '1235.5 ohms': {formatted:'1.24K', colors:'brown red yellow brown'},
+  '12345 ohms': {formatted:'12.3K', colors:'brown red orange red'},
+  '12355 ohms': {formatted:'12.4K', colors:'brown red yellow red'},
+  '123450 ohms': {formatted:'123K', colors:'brown red orange orange'},
+  '123550 ohms': {formatted:'124K', colors:'brown red yellow orange'},
+  '1234500 ohms': {formatted:'1.23M', colors:'brown red orange yellow'},
+  '1235500 ohms': {formatted:'1.24M', colors:'brown red yellow yellow'},
+  '12345000 ohms': {formatted:'12.3M', colors:'brown red orange green'},
+  '12355000 ohms': {formatted:'12.4M', colors:'brown red yellow green'},
+  '123450000 ohms': {formatted:'123M', colors:'brown red orange blue'},
+  '123550000 ohms': {formatted:'124M', colors:'brown red yellow blue'},
+  '1234500000 ohms': {formatted:'1230M', colors:'brown red orange purple'},
+  '1235500000 ohms': {formatted:'1240M', colors:'brown red yellow purple'},
+});
+
+resistorTests('kilo and mega multipliers', {
+  '27kohm': {formatted:'27K', colors:'red purple black red'},
+  '27Kohm': {formatted:'27K', colors:'red purple black red'},
+  '27 K ohm': {formatted:'27K', colors:'red purple black red'},
+  '4K2 ohm': {formatted:'4.2K', colors:'yellow red black brown'},
+  '4.2K ohm': {formatted:'4.2K', colors:'yellow red black brown'},
+});
+
+resistorTests('Decimal points', {
+  '2.9ohm': {formatted:'2.9', colors:'red white black silver'},
+});
+
+resistorTests('Negative multipliers', {
+  '1 ohm': {formatted:'1', colors:'brown black black silver'},
+  '29 ohms': {formatted:'29', colors:'red white black gold'},
+});
+
+resistorTests('Zero special case', {
+  '0 ohms': {formatted:'0', colors:'black black black black'},
+});
+
+resistorTests('Range', {
+  '999000M ohms': {formatted:'999000M', colors:'white white white white'},
+  '999500M ohms': NO_MATCH,
+  '1.1 ohms': {formatted:'1.1', colors:'brown brown black silver'},
+  '1 ohms': {formatted:'1', colors:'brown black black silver'},
+  '0.9 ohms': NO_MATCH,
+  '-10 ohms': NO_MATCH,
+});
+
+resistorTests('Don\'t trigger', {
+  '343.3.3.3 ohms': NO_MATCH,
+  'chicken ohms': NO_MATCH,
+  'what is ohms law': NO_MATCH,
+  'ohm ma darling': NO_MATCH,
+});
+
+</script>
