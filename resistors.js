@@ -38,7 +38,10 @@ resistors.digitsToColors = {
  * }
  */
 resistors.query = function(input) {
-  input = input.replace(/ +?/g, '').replace(/ohm[s]?/, '').replace(/\u2126/, '');
+  input = input.replace(/ +?/g, '')
+               .replace(/ohm[s]?/, '')
+               .replace(/\u2126/, '')
+               .replace(/\.$/, '');
   var value = this.parseValue(input);
   if (value !== null) {
     value = this.roundToSignificantPlaces(value, 3);
