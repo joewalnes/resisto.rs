@@ -1,3 +1,8 @@
+// Resistor calculator.
+// -Joe Walnes
+// See resistors-test.html
+
+
 var resistors = {};
 
 // These hex codes came from
