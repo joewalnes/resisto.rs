@@ -101,3 +101,11 @@ footer a {
   display: inline-block;
   padding: 4px 4px;
 }
+
+@media print, screen and (max-width: 410px) {
+  .resistor-stripe {
+    width: 55px;
+    font-size: 80%;
+    height: 100px;
+  }
+}
