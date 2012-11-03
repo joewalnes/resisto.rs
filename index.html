@@ -1,77 +1,53 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Resisto.rs by joewalnes</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>resisto.rs</title>
+<link rel="stylesheet" href="styles.css">
+<!--[if lt IE 9]><script src="html5shiv.js"><![endif]-->
 
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-35854979-1']);
-      _gaq.push(['_trackPageview']);
+<h1>resisto.rs</h1>
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
+<input id="resistor-query" placeholder="e.g. 3.3K">
+<label class="resistor-query-label" for="resistor-query">&#8486;</label>
 
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/joewalnes/resisto.rs">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/joewalnes/resisto.rs/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/joewalnes/resisto.rs/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+<div id="resistor-result" style="display:none">
+  <div class="resistor-diagram">
+    <span id="resistor-stripe-1" class="resistor-stripe"></span>
+    <span id="resistor-stripe-2" class="resistor-stripe"></span>
+    <span id="resistor-stripe-3" class="resistor-stripe"></span>
+    <span id="resistor-stripe-4" class="resistor-stripe"></span>
+  </div>
+</div>
 
-    <div class="wrapper">
+<footer>
+  a color code utility by <a href="http://joewalnes.com" target="_blank">Joe Walnes</a>
+  (<a href="https://twitter.com/joewalnes" target="_blank">@joewalnes</a>)<br>
+  <a href="https://github.com/joewalnes/resisto.rs/" target="_blank">fork me on github</a>
+</footer>
 
-      <section>
-        <div id="title">
-          <h1>Resisto.rs</h1>
-          <p></p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/joewalnes">joewalnes</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
-        </div>
-
-        <p>Coming soooooon.</p>
-
-      </section>
-
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-
-
-<script type="text/javascript">
-  var _gauges = _gauges || [];
-  (function() {
-    var t   = document.createElement('script');
-    t.type  = 'text/javascript';
-    t.async = true;
-    t.id    = 'gauges-tracker';
-    t.setAttribute('data-site-id', '508eb321613f5d54ab000023');
-    t.src = '//secure.gaug.es/track.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(t, s);
-  })();
+<script src="analytics.js"></script>
+<script src="resistors.js"></script>
+<script>
+  var queryEl  = document.getElementById('resistor-query'),
+  resultEl = document.getElementById('resistor-result');
+  queryEl.onchange = queryEl.onkeyup = function() {
+    location.hash = queryEl.value;
+    var result = resistors.query(queryEl.value);
+    if (result) {
+      resultEl.style.display = 'block';
+      for (var i = 0; i < result.colors.length; i++) {
+        var color = result.colors[i];
+        var stripeEl = document.getElementById('resistor-stripe-' + (i + 1));
+        stripeEl.style.backgroundColor = color.hex;
+        stripeEl.style.color = color.label;
+        stripeEl.innerHTML = color.name;
+      }
+    } else {
+      resultEl.style.display = 'none';
+    }
+  };
+  if (location.hash) {
+    queryEl.value = location.hash.substring(1);
+    queryEl.onchange();
+  }
+  queryEl.focus();
 </script>
-
-
-  </body>
-</html>
