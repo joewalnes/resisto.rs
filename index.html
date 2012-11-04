@@ -13,7 +13,7 @@
 <label class="resistor-query-label" for="resistor-query">&#8486;</label>
 
 <div id="resistor-result" style="display:none">
-  <h2>four band resistor</h2>
+  <h2>four bands</h2>
   <div class="resistor-diagram resistor-diagram-4">
     <div id="resistor-stripe-4-1" class="resistor-stripe"></div>
     <div id="resistor-stripe-4-2" class="resistor-stripe"></div>
@@ -21,7 +21,7 @@
     <div id="resistor-stripe-4-4" class="resistor-stripe">&nbsp;<br>&nbsp;</div>
     <div class="resistor-stripe-tolerance resistor-stripe" style="color: #000; background-color: #cfb53b">gold<br>&plusmn;5%</div>
   </div>
-  <h2>five band resistor</h2>
+  <h2>five bands</h2>
   <div class="resistor-diagram resistor-diagram-5">
     <div id="resistor-stripe-5-1" class="resistor-stripe"></div>
     <div id="resistor-stripe-5-2" class="resistor-stripe"></div>
@@ -29,6 +29,12 @@
     <div id="resistor-stripe-5-4" class="resistor-stripe"></div>
     <div class="resistor-stripe-tolerance resistor-stripe" style="color: #fff; background-color: #964b00">brown<br>&plusmn;1%</div>
   </div>
+  <h2>surface mount</h2>
+  <div id="resistor-smt-3" class="resistor-smt"></div>
+  <!--
+  <div id="resistor-smt-4" class="resistor-smt"></div>
+  <div id="resistor-smt-eia96" class="resistor-smt"></div>
+  -->
 </div>
 
 <footer>
@@ -68,6 +74,9 @@
       resultEl.style.display = 'block';
       showStripes(result.colors4, '4');
       showStripes(result.colors5, '5');
+      document.getElementById('resistor-smt-3').innerHTML = result.smt3;
+      //document.getElementById('resistor-smt-4').innerHTML = result.smt4;
+      //document.getElementById('resistor-smt-eia96').innerHTML = result.smtEia96;
     } else {
       resultEl.style.display = 'none';
     }

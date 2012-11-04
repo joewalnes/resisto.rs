@@ -29,6 +29,7 @@ resistors.digitsToColors = {
  * {
  *   value: 4700,
  *   formatted: '4.7K',
+ *   smt: '472',
  *   colors5: [
  *     {hex: '#ffff00', label: '#000', name: 'yellow'},
  *     {hex: '#ee82ee', label: '#000', name: 'purple'},
@@ -53,9 +54,15 @@ resistors.query = function(input) {
     if ((value <= 99900000000 && value >= 1) || value === 0) {
       var colors5 = this.numberTo5ColorDigits(value);
       var colors4 = this.numberTo4ColorDigits(value);
+      var smt3 = value < 10 ? colors4[0].toString() : colors4.join('');
+      //var smt4 = colors5.join('');
+      //var smtEia96 = colors5.join('');
       var self = this;
       return {
         value: value,
+        smt3: smt3,
+        //smt4: smt4,
+        //smtEia96: smtEia96,
         formatted: this.formatValue(value),
         colors5: colors5.map(function(d) { return self.digitsToColors[d] }),
         colors4: colors4.map(function(d) { return self.digitsToColors[d] }),

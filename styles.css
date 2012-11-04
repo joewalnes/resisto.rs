@@ -107,11 +107,28 @@ footer a {
   padding: 4px 4px;
 }
 
+.resistor-smt {
+  display: inline-block;
+  padding: 0px 10px;
+  font-size: 35px;
+  background-color: #000;
+  border-left: 15px solid silver;
+  border-right: 15px solid silver;
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+  margin-right: 10px;
+}
+
 @media print, screen and (max-width: 520px) {
   .resistor-stripe {
     width: 55px;
     font-size: 80%;
     height: 100px;
+  }
+  .resistor-smt {
+    font-size: 25px;
+    border-left: 12px solid silver;
+    border-right: 12px solid silver;
   }
 }
 
@@ -120,6 +137,11 @@ footer a {
     width: 35px;
     font-size: 55%;
     height: 70px;
+  }
+  .resistor-smt {
+    font-size: 18px;
+    border-left: 8px solid silver;
+    border-right: 8px solid silver;
   }
 }
 
@@ -130,9 +152,15 @@ footer a {
     height: 60px;
     padding: 2px;
   }
+  .resistor-smt {
+    font-size: 13px;
+    border-left: 6px solid silver;
+    border-right: 6px solid silver;
+    padding: 2px 4px;
+  }
 }
 
-@media print, screen and (max-height: 600px) {
+@media print, screen and (max-height: 660px) {
   .resistor-stripe {
     height: 55px;
   }
