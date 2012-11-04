@@ -29,11 +29,16 @@ resistors.digitsToColors = {
  * {
  *   value: 4700,
  *   formatted: '4.7K',
- *   colors: [
+ *   colors5: [
  *     {hex: '#ffff00', label: '#000', name: 'yellow'},
  *     {hex: '#ee82ee', label: '#000', name: 'purple'},
  *     {hex: '#000000', label: '#fff', name: 'black'},
  *     {hex: '#964b00', label: '#fff', name: 'brown'},
+ *   ],
+ *   colors4: [
+ *     {hex: '#ffff00', label: '#000', name: 'yellow'},
+ *     {hex: '#ee82ee', label: '#000', name: 'purple'},
+ *     {hex: '#ff0000', label: '#fff', name: 'red'},
  *   ]
  * }
  */
@@ -45,13 +50,15 @@ resistors.query = function(input) {
   var value = this.parseValue(input);
   if (value !== null) {
     value = this.roundToSignificantPlaces(value, 3);
-    if ((value <= 999000000000 && value >= 1) || value === 0) {
-      var colors = this.numberToColorDigits(value);
+    if ((value <= 99900000000 && value >= 1) || value === 0) {
+      var colors5 = this.numberTo5ColorDigits(value);
+      var colors4 = this.numberTo4ColorDigits(value);
       var self = this;
       return {
         value: value,
         formatted: this.formatValue(value),
-        colors: colors.map(function(d) { return self.digitsToColors[d] }),
+        colors5: colors5.map(function(d) { return self.digitsToColors[d] }),
+        colors4: colors4.map(function(d) { return self.digitsToColors[d] }),
       };
     }
   }
@@ -111,7 +118,7 @@ resistors.roundToSignificantPlaces = function(value, significant) {
  * Given ohm rating as integer (e.g. 470000), return
  * array of color digits (e.g. 4, 7, 0, 3). See digitsTo_Colors.
  */
-resistors.numberToColorDigits = function(value) {
+resistors.numberTo5ColorDigits = function(value) {
   if (!value) {
     return [0, 0, 0, 0]; // Special case
   }
@@ -120,12 +127,32 @@ resistors.numberToColorDigits = function(value) {
   function getDigit(digits, i) {
     var d = parseInt(digits[i]);
     return isNaN(d) ? 0 : d;
-  }    
+  }
   return [
     getDigit(digits, 0),
     getDigit(digits, 1),
     getDigit(digits, 2),
     digits.length - 5];
+};
+
+/**
+ * Given ohm rating as integer (e.g. 470000), return
+ * array of color digits (e.g. 4, 7, 0, 3). See digitsTo_Colors.
+ */
+resistors.numberTo4ColorDigits = function(value) {
+  if (!value) {
+    return [0, 0, 0]; // Special case
+  }
+  var precision = 5;
+  var digits = (Math.floor(value * 100 * Math.pow(10, precision)) / Math.pow(10, precision)).toString();
+  function getDigit(digits, i) {
+    var d = parseInt(digits[i]);
+    return isNaN(d) ? 0 : d;
+  }
+  return [
+    getDigit(digits, 0),
+    getDigit(digits, 1),
+    digits.length - 4];
 };
 
 /**

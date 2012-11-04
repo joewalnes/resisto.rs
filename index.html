@@ -13,12 +13,21 @@
 <label class="resistor-query-label" for="resistor-query">&#8486;</label>
 
 <div id="resistor-result" style="display:none">
-  <div class="resistor-diagram">
-    <div id="resistor-stripe-1" class="resistor-stripe"></div>
-    <div id="resistor-stripe-2" class="resistor-stripe"></div>
-    <div id="resistor-stripe-3" class="resistor-stripe"></div>
-    <div id="resistor-stripe-4" class="resistor-stripe"></div>
-    <div id="resistor-stripe-tolerance" class="resistor-stripe" style="color: #000; background-color: #cfb53b">gold<br>&plusmn;5%</div>
+  <h2>four band resistor</h2>
+  <div class="resistor-diagram resistor-diagram-4">
+    <div id="resistor-stripe-4-1" class="resistor-stripe"></div>
+    <div id="resistor-stripe-4-2" class="resistor-stripe"></div>
+    <div id="resistor-stripe-4-3" class="resistor-stripe"></div>
+    <div id="resistor-stripe-4-4" class="resistor-stripe">&nbsp;<br>&nbsp;</div>
+    <div class="resistor-stripe-tolerance resistor-stripe" style="color: #000; background-color: #cfb53b">gold<br>&plusmn;5%</div>
+  </div>
+  <h2>five band resistor</h2>
+  <div class="resistor-diagram resistor-diagram-5">
+    <div id="resistor-stripe-5-1" class="resistor-stripe"></div>
+    <div id="resistor-stripe-5-2" class="resistor-stripe"></div>
+    <div id="resistor-stripe-5-3" class="resistor-stripe"></div>
+    <div id="resistor-stripe-5-4" class="resistor-stripe"></div>
+    <div class="resistor-stripe-tolerance resistor-stripe" style="color: #fff; background-color: #964b00">brown<br>&plusmn;1%</div>
   </div>
 </div>
 
@@ -33,28 +42,32 @@
 <script>
   var queryEl  = document.getElementById('resistor-query'),
   resultEl = document.getElementById('resistor-result');
+  function showStripes(colors, prefix) {
+    for (var i = 0; i < colors.length; i++) {
+      var color = colors[i];
+      var stripeEl = document.getElementById('resistor-stripe-' + prefix + '-' + (i + 1));
+      stripeEl.style.backgroundColor = color.hex;
+      stripeEl.style.color = color.label;
+      var text = color.name + '<br>';
+      if (i == colors.length - 1) {
+        if (color.multiplier !== undefined) {
+          text += '&times;' + color.multiplier;
+        } else {
+          text += '&nbsp;';
+        }
+      } else {
+        text += color.figure;
+      }
+      stripeEl.innerHTML = text;
+    }
+  }
   queryEl.onchange = queryEl.onkeyup = function() {
     location.hash = encodeURIComponent(queryEl.value);
     var result = resistors.query(queryEl.value);
     if (result) {
       resultEl.style.display = 'block';
-      for (var i = 0; i < result.colors.length; i++) {
-        var color = result.colors[i];
-        var stripeEl = document.getElementById('resistor-stripe-' + (i + 1));
-        stripeEl.style.backgroundColor = color.hex;
-        stripeEl.style.color = color.label;
-        var text = color.name + '<br>';
-        if (i == 3) {
-          if (color.multiplier !== undefined) {
-            text += '&times;' + color.multiplier;
-          } else {
-            text += '&nbsp;';
-          }
-        } else {
-          text += color.figure;
-        }
-        stripeEl.innerHTML = text;
-      }
+      showStripes(result.colors4, '4');
+      showStripes(result.colors5, '5');
     } else {
       resultEl.style.display = 'none';
     }
