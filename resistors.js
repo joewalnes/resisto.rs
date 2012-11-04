@@ -8,18 +8,18 @@ var resistors = {};
 // These hex codes came from
 // http://en.wikipedia.org/wiki/Electronic_color_code
 resistors.digitsToColors = {
-  '-1': {hex: '#cfb53b', label: '#000', name: 'gold'},
-  '-2': {hex: '#c0c0c0', label: '#000', name: 'silver'},
-  '0' : {hex: '#000000', label: '#fff', name: 'black'},
-  '1' : {hex: '#964b00', label: '#fff', name: 'brown'},
-  '2' : {hex: '#ff0000', label: '#fff', name: 'red'},
-  '3' : {hex: '#ffa500', label: '#000', name: 'orange'},
-  '4' : {hex: '#ffff00', label: '#000', name: 'yellow'},
-  '5' : {hex: '#9acd32', label: '#000', name: 'green'},
-  '6' : {hex: '#6495ed', label: '#000', name: 'blue'},
-  '7' : {hex: '#ee82ee', label: '#000', name: 'purple'},
-  '8' : {hex: '#a0a0a0', label: '#000', name: 'gray'},
-  '9' : {hex: '#ffffff', label: '#000', name: 'white'}
+  '-2': {hex: '#c0c0c0', label: '#000', name: 'silver',              multiplier: '0.01'},
+  '-1': {hex: '#cfb53b', label: '#000', name: 'gold'  ,              multiplier: '0.1'},
+  '0' : {hex: '#000000', label: '#fff', name: 'black' , figure: '0'},
+  '1' : {hex: '#964b00', label: '#fff', name: 'brown' , figure: '1', multiplier: '10'},
+  '2' : {hex: '#ff0000', label: '#fff', name: 'red'   , figure: '2', multiplier: '100'},
+  '3' : {hex: '#ffa500', label: '#000', name: 'orange', figure: '3', multiplier: '1K'},
+  '4' : {hex: '#ffff00', label: '#000', name: 'yellow', figure: '4', multiplier: '10K'},
+  '5' : {hex: '#9acd32', label: '#000', name: 'green' , figure: '5', multiplier: '100K'},
+  '6' : {hex: '#6495ed', label: '#000', name: 'blue'  , figure: '6', multiplier: '1M'},
+  '7' : {hex: '#ee82ee', label: '#000', name: 'purple', figure: '7', multiplier: '10M'},
+  '8' : {hex: '#a0a0a0', label: '#000', name: 'gray'  , figure: '8', multiplier: '100M'},
+  '9' : {hex: '#ffffff', label: '#000', name: 'white' , figure: '9', multiplier: '1000M'}
 };
 
 /**

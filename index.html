@@ -14,10 +14,10 @@
 
 <div id="resistor-result" style="display:none">
   <div class="resistor-diagram">
-    <span id="resistor-stripe-1" class="resistor-stripe"></span>
-    <span id="resistor-stripe-2" class="resistor-stripe"></span>
-    <span id="resistor-stripe-3" class="resistor-stripe"></span>
-    <span id="resistor-stripe-4" class="resistor-stripe"></span>
+    <div id="resistor-stripe-1" class="resistor-stripe"></div>
+    <div id="resistor-stripe-2" class="resistor-stripe"></div>
+    <div id="resistor-stripe-3" class="resistor-stripe"></div>
+    <div id="resistor-stripe-4" class="resistor-stripe"></div>
   </div>
   <small>resistor colors, followed by a gap and tolerance color</small>
 </div>
@@ -43,7 +43,17 @@
         var stripeEl = document.getElementById('resistor-stripe-' + (i + 1));
         stripeEl.style.backgroundColor = color.hex;
         stripeEl.style.color = color.label;
-        stripeEl.innerHTML = color.name;
+        var text = color.name + '<br>';
+        if (i == 3) {
+          if (color.multiplier !== undefined) {
+            text += '&times;' + color.multiplier;
+          } else {
+            text += '&nbsp;';
+          }
+        } else {
+          text += color.figure;
+        }
+        stripeEl.innerHTML = text;
       }
     } else {
       resultEl.style.display = 'none';
