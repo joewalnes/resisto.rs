@@ -102,10 +102,30 @@ footer a {
   padding: 4px 4px;
 }
 
-@media print, screen and (max-width: 410px) {
+#resistor-stripe-tolerance {
+  margin-left: 20px;
+}
+
+@media print, screen and (max-width: 520px) {
   .resistor-stripe {
     width: 55px;
     font-size: 80%;
     height: 100px;
   }
 }
+
+@media print, screen and (max-width: 410px) {
+  .resistor-stripe {
+    width: 35px;
+    font-size: 55%;
+    height: 70px;
+  }
+}
+
+@media print, screen and (max-height: 410px) {
+  footer {
+    position: inherit;
+    padding: 0;
+  }
+}
+
