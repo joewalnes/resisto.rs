@@ -1,0 +1,13 @@
+{
+  "name": "resisto.rs",
+  "description": "No frills resistor color code tool",
+  "launch_path": "/",
+  "icons": {
+    "128": "/img/resistors.png"
+  },
+  "developer": {
+    "name": "Joe Walnes",
+    "url": "http://joewalnes.com/"
+  },
+  "default_locale": "en"
+}
