@@ -74,7 +74,7 @@
   <div class="twelve columns" id="footer">
     by <a href="http://joewalnes.com" target="_blank">Joe Walnes</a>
     (<a href="https://twitter.com/joewalnes" target="_blank">@joewalnes</a>).
-    <a href="https://github.com/joewalnes/resisto.rs/" target="_blank">fork me on github</a>.
+    <a href="https://github.com/joewalnes/resisto.rs/" target="_blank">fork me on github</a>. <a href="#" id="install_app">Install</a> as a web app.
   </div>
 </div>
 
@@ -131,4 +131,18 @@
     queryEl.onchange();
   };
   queryEl.focus();
+
+  $(document).ready(function() {
+    $("#install_app").click(function() {
+      var request = window.navigator.mozApps.install('http://resisto.rs/resistors.webapp');
+      request.onsuccess = function () {
+        // Save the App object that is returned
+        var appRecord = this.result;
+      };
+      request.onerror = function () {
+        // Display the error information from the DOMError object
+        alert('Install failed, error: ' + this.error.name);
+      };
+    });
+  });
 </script>
