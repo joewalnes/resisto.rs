@@ -1,0 +1,15 @@
+{
+    "name": "resisto.rs",
+    "description": "No frills resistor color code tool.",
+    "architecture": "all",
+    "title": "resito.rs",
+    "hooks": {
+        "app": {
+            "apparmor": "ubuntu/resisto.rs.apparmor",
+            "desktop":  "ubuntu/resisto.rs.desktop"
+        }
+    },
+    "version": "0.1",
+    "maintainer": "Leo Arias <elopio@ubuntu.com>",
+    "framework" : "ubuntu-sdk-15.04"
+}

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=resisto.rs
+Exec=webapp-container --inspector ./index.html
+Icon=img/icon-blackbg-256.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true
